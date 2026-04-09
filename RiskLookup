@@ -1,0 +1,100 @@
+import java.util.Arrays;
+
+public class RiskLookup {
+
+    // -------- LINEAR SEARCH --------
+    public static int linearSearch(int[] arr, int target) {
+        int comparisons = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            comparisons++;
+            if (arr[i] == target) {
+                System.out.println("Linear Search: Found at index " + i);
+                System.out.println("Comparisons: " + comparisons);
+                return i;
+            }
+        }
+
+        System.out.println("Linear Search: Not found");
+        System.out.println("Comparisons: " + comparisons);
+        return -1;
+    }
+
+    // -------- BINARY SEARCH FLOOR --------
+    public static int findFloor(int[] arr, int target) {
+        int low = 0, high = arr.length - 1;
+        int floor = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == target) return arr[mid];
+
+            if (arr[mid] < target) {
+                floor = arr[mid]; // candidate
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return floor;
+    }
+
+    // -------- BINARY SEARCH CEILING --------
+    public static int findCeiling(int[] arr, int target) {
+        int low = 0, high = arr.length - 1;
+        int ceil = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] == target) return arr[mid];
+
+            if (arr[mid] > target) {
+                ceil = arr[mid]; // candidate
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ceil;
+    }
+
+    // -------- INSERTION POINT --------
+    public static int findInsertionPoint(int[] arr, int target) {
+        int low = 0, high = arr.length;
+
+        while (low < high) {
+            int mid = (low + high) / 2;
+
+            if (arr[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low; // position to insert
+    }
+
+    public static void main(String[] args) {
+
+        int[] risks = {10, 25, 50, 100};
+        int target = 30;
+
+        System.out.println("Risk Bands: " + Arrays.toString(risks));
+        System.out.println("Target: " + target);
+
+        // Linear search (unsorted scenario)
+        linearSearch(risks, target);
+
+        // Binary search variants
+        int floor = findFloor(risks, target);
+        int ceil = findCeiling(risks, target);
+        int pos = findInsertionPoint(risks, target);
+
+        System.out.println("\nBinary Search Results:");
+        System.out.println("Floor: " + floor);
+        System.out.println("Ceiling: " + ceil);
+        System.out.println("Insertion Index: " + pos);
+    }
+}
